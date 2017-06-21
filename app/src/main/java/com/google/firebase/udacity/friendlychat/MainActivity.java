@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -86,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO: Fire an intent to show an image picker
 
-                mMessageEditText.setText("");
-                FriendlyMessage friendlyMessage = new FriendlyMessage(
-                        mMessageEditText.getText().toString(), mUsername, null);
+
             }
         });
 
@@ -118,6 +117,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Send messages on click
+
+
+                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mUsername, null);
+                Log.d("MinaActivity", friendlyMessage.getText());
+                mMessagesDatabaseReference.push().setValue(friendlyMessage); // this saves the value
+                Log.d("MainActivty", "Checking if this is printing");
 
                 // Clear input box
                 mMessageEditText.setText("");
