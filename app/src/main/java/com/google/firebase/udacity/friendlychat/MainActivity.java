@@ -16,6 +16,7 @@
 package com.google.firebase.udacity.friendlychat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -42,6 +44,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    //storage component instant
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mChatPhotoStorageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,9 +94,12 @@ public class MainActivity extends AppCompatActivity {
         //initialize Auth reference
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        //initialize storage
+        mFirebaseStorage = FirebaseStorage.getInstance();
+
 
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
-
+        mChatPhotoStorageReference = mFirebaseStorage.getReference().child("chat_photos");
 
 
         // Initialize references to views
@@ -113,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(Intent.createChooser(intent, "Complete Action Using"),RC_PHOTO_PICKER);
+                startActivityForResult(Intent.createChooser(intent, "Complete Action Using"), RC_PHOTO_PICKER);
 
 
             }
@@ -163,10 +175,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
+                if (user != null) {
                     // is user is signed in
                     onSignedInInitialize(user.getDisplayName());
-                }else{
+                } else {
                     // if user is not signed in
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -184,14 +196,29 @@ public class MainActivity extends AppCompatActivity {
 
     // method that comes back from the sign in activity of Firebase
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode==RC_SIGN_IN){
-            if(resultCode==RESULT_OK){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
                 Toast.makeText(MainActivity.this, "Signed in!", Toast.LENGTH_SHORT).show();
-            }else if (resultCode==RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(MainActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
+            Log.d("MainActivity=onActRes", "PhotoPicker");
+            Uri selectedImageUri = data.getData();
+            StorageReference photoRef = mChatPhotoStorageReference.child(selectedImageUri.getLastPathSegment());
+
+            //upload to firebase storage
+            photoRef.putFile(selectedImageUri).addOnSuccessListener(
+                    this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            FriendlyMessage fm = new FriendlyMessage(null, mUsername, downloadUrl.toString());
+                            mMessagesDatabaseReference.push().setValue(fm);
+                        }
+                    });
         }
     }
 
