@@ -10,6 +10,7 @@
         <item name="android:colorButtonNormal">@drawable/button_selector</item>
         <item name="colorButtonNormal">@drawable/button_selector</item>
         <item name="android:buttonStyle">@style/FriendlyButtonStyle</item>
+        <item name="android:textColorPrimary">@color/cardview_light_background</item>
     </style>
 
     <style name="FriendlyButtonStyle" parent="Widget.AppCompat.Button">

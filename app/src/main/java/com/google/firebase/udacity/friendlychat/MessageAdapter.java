@@ -2,6 +2,7 @@ package com.google.firebase.udacity.friendlychat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
@@ -26,6 +30,7 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         ImageView photoImageView = (ImageView) convertView.findViewById(R.id.photoImageView);
         TextView messageTextView = (TextView) convertView.findViewById(R.id.messageTextView);
         TextView authorTextView = (TextView) convertView.findViewById(R.id.nameTextView);
+        TextView timeTextView = (TextView) convertView.findViewById(R.id.time);
 
         FriendlyMessage message = getItem(position);
 
@@ -42,6 +47,13 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             messageTextView.setText(message.getText());
         }
         authorTextView.setText(message.getName());
+
+
+        long mtime = message.getEpochTime();
+        Date messageTime = new Date( mtime * 1000 );
+        String dateString = messageTime.toString();
+        String datePrint = dateString.substring(0, dateString.length()-12);
+        timeTextView.setText(datePrint);
 
         return convertView;
     }

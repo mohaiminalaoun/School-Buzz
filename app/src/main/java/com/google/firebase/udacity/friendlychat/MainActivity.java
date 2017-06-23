@@ -52,11 +52,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SimpleTimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -170,8 +173,12 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Send messages on click
 
 
-                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mUsername, null);
-                Log.d("MinaActivity", friendlyMessage.getText());
+                FriendlyMessage friendlyMessage = new FriendlyMessage
+                        (mMessageEditText.getText().toString(), mUsername, null);
+                SimpleDateFormat dateFormat = new SimpleDateFormat();
+                long epoch = System.currentTimeMillis();
+
+                Log.e("TIMe--> ",friendlyMessage.getEpochTime()+"");
                 mMessagesDatabaseReference.push().setValue(friendlyMessage); // this saves the value
                 Log.d("MainActivty", "Checking if this is printing");
 

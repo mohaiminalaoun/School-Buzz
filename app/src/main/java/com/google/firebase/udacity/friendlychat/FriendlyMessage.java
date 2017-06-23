@@ -20,6 +20,7 @@ public class FriendlyMessage {
     private String text;
     private String name;
     private String photoUrl;
+    private long epochTime;
 
     public FriendlyMessage() {
     }
@@ -28,6 +29,7 @@ public class FriendlyMessage {
         this.text = text;
         this.name = name;
         this.photoUrl = photoUrl;
+        this.epochTime = System.currentTimeMillis()/1000;
     }
 
     public String getText() {
@@ -52,5 +54,13 @@ public class FriendlyMessage {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public long getEpochTime() {
+        return epochTime;
+    }
+
+    public void setEpochTime(long epochTime) {
+        this.epochTime = epochTime;
     }
 }
