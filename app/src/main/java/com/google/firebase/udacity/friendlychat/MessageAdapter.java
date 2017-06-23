@@ -52,8 +52,12 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         long mtime = message.getEpochTime();
         Date messageTime = new Date( mtime * 1000 );
         String dateString = messageTime.toString();
-        String datePrint = dateString.substring(0, dateString.length()-12);
-        timeTextView.setText(datePrint);
+        String[] arr = dateString.split(" ");
+        String sb = arr[0];
+        for(int i=1; i <4; i++){
+            sb+=" "+arr[i];
+        }
+        timeTextView.setText(sb);
 
         return convertView;
     }
