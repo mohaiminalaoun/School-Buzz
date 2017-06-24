@@ -184,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
 
                 // Clear input box
                 mMessageEditText.setText("");
+
+
+                // go to chatlistactivity
+                //TODO: remove later
+                goToChatListActivity();
             }
         });
 
@@ -366,5 +371,12 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    public void goToChatListActivity(){
+        Intent intent = new Intent(this, ChatListActivity.class);
+        startActivity(intent);
+
     }
 }
