@@ -1,5 +1,7 @@
 package com.google.firebase.udacity.friendlychat;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -79,6 +82,7 @@ public class ChatListActivity extends AppCompatActivity {
                     Log.e("ChatList:",user.getDisplayName());
                     Toast.makeText(ChatListActivity.this, "I am logged in", Toast.LENGTH_LONG).show();
                     attachDatabaseReadListener();
+                    attachClickListener();
                 } else {
                     // if user is not signed in
                     Toast.makeText(ChatListActivity.this, "I am not logged in", Toast.LENGTH_LONG).show();
@@ -138,6 +142,22 @@ public class ChatListActivity extends AppCompatActivity {
                 mChatEditTitle.setText("");
             }
         });
+    }
+
+    private void attachClickListener() {
+        mConversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
+                // TODO: get conversation details and pass them to the chat activity
+                goToMainActivity();
+            }
+        });
+    }
+
+    private void goToMainActivity() {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
     }
 
     private void onSignedInInitialize(String displayName) {

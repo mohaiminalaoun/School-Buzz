@@ -186,9 +186,6 @@ public class MainActivity extends AppCompatActivity {
                 mMessageEditText.setText("");
 
 
-                // go to chatlistactivity
-                //TODO: remove later
-                goToChatListActivity();
             }
         });
 
@@ -374,9 +371,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void goToChatListActivity(){
-        Intent intent = new Intent(this, ChatListActivity.class);
-        startActivity(intent);
-
-    }
 }
