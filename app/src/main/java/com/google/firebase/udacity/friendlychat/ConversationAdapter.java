@@ -28,10 +28,27 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
         }
 
         ImageView conversationIcon = (ImageView) convertView.findViewById(R.id.conversationIcon);
+        ColorWheel cw = new ColorWheel();
+        conversationIcon.setBackgroundColor(cw.getColor());
+
         TextView conversationTitle = (TextView) convertView.findViewById(R.id.conversationTitle);
+        TextView userNameConversation = (TextView) convertView.findViewById(R.id.userNameConversation);
+        TextView time = (TextView) convertView.findViewById(R.id.time);
 
         FriendlyConversation friendlyConversation = getItem(position);
         conversationTitle.setText(friendlyConversation.getTitle());
+        userNameConversation.setText(friendlyConversation.getUsers());
+
+
+        long mtime = friendlyConversation.getEpochTime();
+        Date messageTime = new Date( mtime * 1000 );
+        String dateString = messageTime.toString();
+        String[] arr = dateString.split(" ");
+        String sb = arr[0];
+        for(int i=1; i <4; i++){
+            sb+=" "+arr[i];
+        }
+        time.setText(sb);
 
         return convertView;
     }

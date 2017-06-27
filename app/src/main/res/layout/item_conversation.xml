@@ -10,24 +10,55 @@
 
     <ImageView
         android:id="@+id/conversationIcon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:paddingBottom="10dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:adjustViewBounds="true"
-        android:layout_alignParentTop="true"
+        android:background="@color/common_google_signin_btn_text_light_default"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:id="@+id/userNameConversation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingTop="10dp"
+        android:textSize="8sp"
+        android:layout_marginLeft="5dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="Tom,Dick,Jane"
+        android:textStyle="normal|italic"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/time"
+        android:layout_toEndOf="@+id/time" />
+
+    <TextView
         android:id="@+id/conversationTitle"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="28dp"
         android:textColor="@color/colorTitle"
         android:textSize="18sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="Message"
-        android:paddingBottom="3dp"
-        android:layout_alignParentTop="true"
+        android:textAllCaps="false"
+        android:layout_alignBottom="@+id/conversationIcon"
         android:layout_toRightOf="@+id/conversationIcon"
-        android:layout_toEndOf="@+id/conversationIcon" />
+        android:layout_toEndOf="@+id/conversationIcon"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:paddingTop="10dp"
+        android:textSize="8sp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:text="4 Jun 5:32 pm"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/conversationTitle"
+        android:layout_alignStart="@+id/conversationTitle" />
 
 </RelativeLayout>
