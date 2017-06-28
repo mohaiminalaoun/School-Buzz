@@ -21,7 +21,7 @@ public class FriendlyMessage {
     private String name;
     private String photoUrl;
     private long epochTime;
-    private String chatId;
+    public String chatId;
 
     public FriendlyMessage() {
     }
@@ -67,6 +67,6 @@ public class FriendlyMessage {
     }
 
     public String getChatId() {
-        return chatId;
+        return this.chatId;
     }
 }

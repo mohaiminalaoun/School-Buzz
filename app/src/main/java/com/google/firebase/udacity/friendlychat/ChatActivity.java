@@ -312,7 +312,14 @@ public class ChatActivity extends AppCompatActivity {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     //snapshot is current snapshot, then we seseriaze the snapshot to FM
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
-                    mMessageAdapter.add(friendlyMessage);
+
+                    Log.e("check  ",friendlyMessage.getText()+" "+friendlyMessage.getName()+" "+friendlyMessage.chatId);
+                    if(friendlyMessage.chatId!=null && friendlyMessage.getChatId().equals(chatId)){
+                        mMessageAdapter.add(friendlyMessage);
+                    }else{
+                        Log.e("ERROR","ERROR");
+                    }
+
                 }
 
                 @Override
