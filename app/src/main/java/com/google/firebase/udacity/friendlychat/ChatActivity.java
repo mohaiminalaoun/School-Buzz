@@ -182,11 +182,8 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 FriendlyMessage friendlyMessage = new FriendlyMessage
-                        (mMessageEditText.getText().toString(), mUsername, null);
-                SimpleDateFormat dateFormat = new SimpleDateFormat();
-                long epoch = System.currentTimeMillis();
-
-                Log.e("TIMe--> ",friendlyMessage.getEpochTime()+"");
+                        (mMessageEditText.getText().toString(), mUsername, null,chatId);
+                Log.e("onCLick",chatId);
                 mMessagesDatabaseReference.push().setValue(friendlyMessage); // this saves the value
                 Log.d("MainActivty", "Checking if this is printing");
 
@@ -279,7 +276,7 @@ public class ChatActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            FriendlyMessage fm = new FriendlyMessage(null, mUsername, downloadUrl.toString());
+                            FriendlyMessage fm = new FriendlyMessage(null, mUsername, downloadUrl.toString(), chatId);
                             mMessagesDatabaseReference.push().setValue(fm);
                         }
                     });

@@ -21,15 +21,17 @@ public class FriendlyMessage {
     private String name;
     private String photoUrl;
     private long epochTime;
+    private String chatId;
 
     public FriendlyMessage() {
     }
 
-    public FriendlyMessage(String text, String name, String photoUrl) {
+    public FriendlyMessage(String text, String name, String photoUrl, String chatId) {
         this.text = text;
         this.name = name;
         this.photoUrl = photoUrl;
         this.epochTime = System.currentTimeMillis()/1000;
+        this.chatId = chatId;
     }
 
     public String getText() {
@@ -62,5 +64,9 @@ public class FriendlyMessage {
 
     public void setEpochTime(long epochTime) {
         this.epochTime = epochTime;
+    }
+
+    public String getChatId() {
+        return chatId;
     }
 }
