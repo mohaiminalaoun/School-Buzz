@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -55,21 +54,22 @@ import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
-public class MainActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "ChatActivity";
 
     public static final String ANONYMOUS = "anonymous";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     public static final int RC_SIGN_IN = 1; // signed in is 1
     private static final int RC_PHOTO_PICKER = 2;
     private static final String FRIENDLY_MESSAGE_LENGTH_KEY = "friendly_msg_length";
+
+    //TODO: chatid
+    private String chatId;
 
     private ListView mMessageListView;
     private MessageAdapter mMessageAdapter;
@@ -114,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
 
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
         mChatPhotoStorageReference = mFirebaseStorage.getReference().child("chat_photos");
+
+        //TODO: get string extra, i.e. id of the chat from where it comes
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        Log.e("bundle --> ", b.toString());
+        Log.e("string i get -> ",b.getString("clickedId"));
+        this.chatId = b.getString("clickedId");
+        Log.e("chat id'set =",this.chatId);
 
 
         // Initialize references to views
@@ -256,12 +264,12 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Signed in!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Signed in!", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(MainActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
-            Log.d("MainActivity=onActRes", "PhotoPicker");
+            Log.d("ChatActivity=onActRes", "PhotoPicker");
             Uri selectedImageUri = data.getData();
             StorageReference photoRef = mChatPhotoStorageReference.child(selectedImageUri.getLastPathSegment());
 

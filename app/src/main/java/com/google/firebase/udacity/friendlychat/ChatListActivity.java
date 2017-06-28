@@ -1,6 +1,5 @@
 package com.google.firebase.udacity.friendlychat;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -137,7 +136,11 @@ public class ChatListActivity extends AppCompatActivity {
                 Toast.makeText(ChatListActivity.this, test, Toast.LENGTH_LONG).show();
                 //use defualt users name
                 String defaultUsers = mUsername;
-                FriendlyConversation fc = new FriendlyConversation(test, defaultUsers);
+                FriendlyConversation fc = new FriendlyConversation(test, defaultUsers, "");
+
+                DatabaseReference df = mMessagesDatabaseReference.push();
+                String id =df.getKey();
+                fc.setId(id);
                 mMessagesDatabaseReference.push().setValue(fc);
                 mChatEditTitle.setText("");
             }
@@ -150,13 +153,16 @@ public class ChatListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
                 // TODO: get conversation details and pass them to the chat activity
-                goToMainActivity();
+                String mId = fc.getId();
+                goToChatActivity(mId);
             }
         });
     }
 
-    private void goToMainActivity() {
-            Intent intent = new Intent(this, MainActivity.class);
+    private void goToChatActivity(String id) {
+            Intent intent = new Intent(this, ChatActivity.class);
+            intent.putExtra("clickedId",id);
+            Log.e("TAGid",id);
             startActivity(intent);
     }
 
