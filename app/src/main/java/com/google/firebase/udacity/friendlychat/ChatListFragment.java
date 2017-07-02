@@ -1,18 +1,37 @@
 package com.google.firebase.udacity.friendlychat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -37,6 +56,10 @@ public class ChatListFragment extends Fragment {
 
 
     private ChildEventListener mChildEventListener;
+    private static final int RC_SIGN_IN = 1;
+    private ConversationAdapter mConversationAdapter;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private String mUsername;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -49,17 +72,168 @@ public class ChatListFragment extends Fragment {
         Log.e("ChatListFragement", " onCreateView() is called");
         View rootView = inflater.inflate(R.layout.fragment_chat_list, container, false);
         //TODO: copy Oncreate function from ChatListActivity
-        ListView mConversationListView = (ListView) getActivity().findViewById(R.id.conversationListView);
-        Button mNewChatButton = (Button) getActivity().findViewById(R.id.newChatButton);
-        EditText mChatEditTitle = (EditText) getActivity().findViewById(R.id.chatEditTitle);
+        final Button mNewChatButton = (Button) rootView.findViewById(R.id.newChatButton);
+        final EditText mChatEditTitle = (EditText) rootView.findViewById(R.id.chatEditTitle);
+        //Firebase stuff
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        final DatabaseReference mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("chats");
+
+
+        final ListView mConversationListView = (ListView) rootView.findViewById(R.id.conversationListViewFragment);
+        Log.e("CLF ", mConversationListView.toString() );
+
+        List<FriendlyConversation> conversations = new ArrayList<>();
+        mConversationAdapter = new ConversationAdapter(getActivity(), R.layout.item_conversation, conversations);
+        mConversationListView.setAdapter(mConversationAdapter); //DONE
+
+        // Check if signed in
+        // create auth listener // type new authstatelistener and wait for autocomplete :p
+        FirebaseAuth.AuthStateListener mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // is user is signed in
+                    onSignedInInitialize(user.getDisplayName());
+                    //TODO: remove this to its own method
+                    Log.e("TAG", "in the atttachDBRL method");
+                    if(mChildEventListener==null) {
+                        Log.e("TAG", "is null");
+                        mChildEventListener = new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                //snapshot is current snapshot, then we seseriaze the snapshot to FM
+                                FriendlyConversation fc = dataSnapshot.getValue(FriendlyConversation.class);
+                                Log.e("TAG", fc.getTitle());
+                                mConversationAdapter.add(fc);
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        };
+
+                        mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
+                    }
+                    Log.e("ChatList:",user.getDisplayName());
+                    Toast.makeText(getActivity(), "I am logged in", Toast.LENGTH_LONG).show();
+
+                    //TODO: implement these methods
+                    //attachDatabaseReadListener();
+                    //attachClickListener();
+                } else {
+                    // if user is not signed in
+                    Toast.makeText(getActivity(), "I am not logged in", Toast.LENGTH_LONG).show();
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false) //smart lock is disabled
+                                    .setAvailableProviders(
+                                            Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                                                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
+
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
+        mChatEditTitle.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().trim().length()>10){
+                    mNewChatButton.setEnabled(true);
+
+                }else{
+                    mNewChatButton.setEnabled(false);
+
+                }
+
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        mNewChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String test = mChatEditTitle.getText().toString();
+                Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
+                //use defualt users name
+                String defaultUsers = mUsername;
+                FriendlyConversation fc = new FriendlyConversation(test, defaultUsers, "");
+
+                DatabaseReference df = mMessagesDatabaseReference.push();
+                String id =df.getKey();
+                fc.setId(id);
+                mMessagesDatabaseReference.push().setValue(fc);
+                mChatEditTitle.setText("");
+            }
+        });
 
 
 
+        mConversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
+                // TODO: get conversation details and pass them to the chat activity
+                String mId = fc.getId();
+                goToChatActivity(mId);
+            }
+        });
 
 
 
         return rootView;
     }
+
+    private void goToChatActivity(String mId) {
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra("clickedId",mId);
+        Log.e("TAGid",mId);
+        startActivity(intent);
+    }
+
+    private void onSignedInInitialize(String displayName) {
+        mUsername = displayName;
+        // can read messages when you're signed in only
+    }
+
+
 
     /**
      * Use this factory method to create a new instance of

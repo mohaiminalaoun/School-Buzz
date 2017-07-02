@@ -4,14 +4,8 @@
     android:layout_height="match_parent"
     tools:context="com.google.firebase.udacity.friendlychat.ChatListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Chat List Fragment" />
-
     <ListView
-        android:id="@+id/conversationListView"
+        android:id="@+id/conversationListViewFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stackFromBottom="false"

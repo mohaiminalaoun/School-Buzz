@@ -51,23 +51,23 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_lists);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance(); //DONE
 
         //initialize Auth reference
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance(); //Done
 
         //initialize storage
-        mFirebaseStorage = FirebaseStorage.getInstance();
+        mFirebaseStorage = FirebaseStorage.getInstance(); //DONE
 
-        mFirebaseRemoteConfig= FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig= FirebaseRemoteConfig.getInstance(); //DONE
 
 
-        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("chats");
+        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("chats");//DONE
 
-        mConversationListView = (ListView) findViewById(R.id.conversationListView);
+        mConversationListView = (ListView) findViewById(R.id.conversationListView); //DONE
 
-        List<FriendlyConversation> conversations = new ArrayList<>();
-        mConversationAdapter = new ConversationAdapter(this, R.layout.item_conversation, conversations);
+        List<FriendlyConversation> conversations = new ArrayList<>(); //DOne
+        mConversationAdapter = new ConversationAdapter(this, R.layout.item_conversation, conversations); //DONE
         mConversationListView.setAdapter(mConversationAdapter);
         // Check if signed in
         // create auth listener // type new authstatelistener and wait for autocomplete :p
