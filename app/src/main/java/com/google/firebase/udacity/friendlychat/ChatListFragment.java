@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import com.google.firebase.database.ChildEventListener;
 
 
 /**
@@ -29,8 +35,30 @@ public class ChatListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+
+    private ChildEventListener mChildEventListener;
+
     public ChatListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        Log.e("ChatListFragement", " onCreateView() is called");
+        View rootView = inflater.inflate(R.layout.fragment_chat_list, container, false);
+        //TODO: copy Oncreate function from ChatListActivity
+        ListView mConversationListView = (ListView) getActivity().findViewById(R.id.conversationListView);
+        Button mNewChatButton = (Button) getActivity().findViewById(R.id.newChatButton);
+        EditText mChatEditTitle = (EditText) getActivity().findViewById(R.id.chatEditTitle);
+
+
+
+
+
+
+        return rootView;
     }
 
     /**
@@ -43,6 +71,7 @@ public class ChatListFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static ChatListFragment newInstance(String param1, String param2) {
+        Log.e("ChatListFragement", " newInstance() is called");
         ChatListFragment fragment = new ChatListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -53,6 +82,7 @@ public class ChatListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.e("ChatListFragement", " conCreate() is called");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -60,12 +90,7 @@ public class ChatListFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_list, container, false);
-    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -77,6 +102,7 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.e("ChatListFragement", " onAttach() is called");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
