@@ -59,6 +59,27 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         }
         timeTextView.setText(sb);
 
+
+        //TODO: check if getItem fucks things up or not
+        if(position==0){
+            authorTextView.setVisibility(View.VISIBLE);
+            timeTextView.setVisibility(View.VISIBLE);
+        }
+        else if(position>0) {
+            FriendlyMessage tempMessage = getItem(position - 1);
+            if (message.getName().equals(tempMessage.getName())){
+                Log.e("IN ADAPTER: ", "This user is "+message.getName());
+                Log.e("in adapter: ", "Prev user is "+tempMessage.getName());
+                authorTextView.setVisibility(View.GONE);
+                timeTextView.setVisibility(View.GONE);
+            }
+            else {
+                authorTextView.setVisibility(View.VISIBLE);
+                timeTextView.setVisibility(View.VISIBLE);
+            }
+
+        }
+
         return convertView;
     }
 }
