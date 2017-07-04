@@ -194,16 +194,21 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String test = mChatEditTitle.getText().toString();
-                Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
-                //use defualt users name
-                String defaultUsers = mUsername;
-                FriendlyConversation fc = new FriendlyConversation(test, defaultUsers, "");
+                if(test.length()>10){
+                    Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
+                    //use defualt users name
+                    String defaultUsers = mUsername;
+                    FriendlyConversation fc = new FriendlyConversation(test, defaultUsers, "");
 
-                DatabaseReference df = mMessagesDatabaseReference.push();
-                String id =df.getKey();
-                fc.setId(id);
-                mMessagesDatabaseReference.push().setValue(fc);
-                mChatEditTitle.setText("");
+                    DatabaseReference df = mMessagesDatabaseReference.push();
+                    String id =df.getKey();
+                    fc.setId(id);
+                    mMessagesDatabaseReference.push().setValue(fc);
+                    mChatEditTitle.setText("");
+                }else{
+                    Toast.makeText(getActivity(),"Message must be mundane!",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
