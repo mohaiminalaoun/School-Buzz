@@ -312,11 +312,11 @@ public class ChatActivity extends AppCompatActivity {
                     //snapshot is current snapshot, then we seseriaze the snapshot to FM
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
 
-                    Log.e("check  ",friendlyMessage.getText()+" "+friendlyMessage.getName()+" "+friendlyMessage.chatId);
+                    //Log.e("check  ",friendlyMessage.getText()+" "+friendlyMessage.getName()+" "+friendlyMessage.chatId);
                     if(friendlyMessage.chatId!=null && friendlyMessage.getChatId().equals(chatId)){
                         mMessageAdapter.add(friendlyMessage);
                     }else{
-                        Log.e("ERROR","ERROR");
+
                     }
 
                 }

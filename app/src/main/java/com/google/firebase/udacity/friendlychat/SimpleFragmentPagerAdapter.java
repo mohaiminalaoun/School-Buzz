@@ -20,7 +20,7 @@ class SimpleFragmentPagerAdapter  extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.e("SFPA: ","Get Item called");
+        //Log.e("SFPA: ","Get Item called");
         if (position == 0) {
             return new StatusFragment();
         } else if (position == 1){
@@ -32,14 +32,14 @@ class SimpleFragmentPagerAdapter  extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        Log.e("SFPA: ","Get count");
+        //Log.e("SFPA: ","Get count");
         return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
-        Log.e("SFPA: ", "getPageTitle called");
+        //Log.e("SFPA: ", "getPageTitle called");
         return tabTitles[position];
     }
 }

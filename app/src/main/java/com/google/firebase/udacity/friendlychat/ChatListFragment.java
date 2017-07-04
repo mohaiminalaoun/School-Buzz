@@ -107,7 +107,7 @@ public class ChatListFragment extends Fragment {
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 //snapshot is current snapshot, then we seseriaze the snapshot to FM
                                 FriendlyConversation fc = dataSnapshot.getValue(FriendlyConversation.class);
-                                Log.e("TAG", fc.getTitle());
+                                Log.e("TAG", "this is called when no internet");
                                 mConversationAdapter.add(fc);
                             }
 
