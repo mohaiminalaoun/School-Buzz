@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.google.firebase.udacity.friendlychat.ChatListFragment">
+    tools:context="com.google.firebase.udacity.friendlychat.ChatListFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListView
         android:id="@+id/conversationListViewFragment"
@@ -23,11 +24,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingTop="10dp"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true">
 
         <EditText
             android:id="@+id/chatEditTitle"
@@ -40,13 +41,18 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/newChatButton"
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:enabled="false"
-            android:text="@string/new_chat"/>
+            android:scaleType="fitCenter"
+            android:layout_margin="10dp"
+            app:borderWidth="0dp"
+            android:clickable="false"
+            app:rippleColor="@color/colorTitle"
+            app:elevation="6dp"
+            android:id="@+id/fab"
+            android:src="@drawable/add"
+            android:layout_gravity="right|bottom" />
 
     </LinearLayout>
 

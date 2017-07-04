@@ -110,10 +110,9 @@ public class ChatListActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if(s.toString().trim().length()>10){
-                    mNewChatButton.setEnabled(true);
-
+                    mNewChatButton.setClickable(true);
                 }else{
-                    mNewChatButton.setEnabled(false);
+                    mNewChatButton.setClickable(false);
 
                 }
 

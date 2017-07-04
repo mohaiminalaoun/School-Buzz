@@ -72,7 +72,10 @@ public class ChatListFragment extends Fragment {
         Log.e("ChatListFragement", " onCreateView() is called");
         View rootView = inflater.inflate(R.layout.fragment_chat_list, container, false);
         //TODO: copy Oncreate function from ChatListActivity
-        final Button mNewChatButton = (Button) rootView.findViewById(R.id.newChatButton);
+        final android.support.design.widget.FloatingActionButton mNewChatButton =
+                (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
+        mNewChatButton.setClickable(false);
+        Log.e("CHAT FRAG: ",""+mNewChatButton.isClickable());
         final EditText mChatEditTitle = (EditText) rootView.findViewById(R.id.chatEditTitle);
         //Firebase stuff
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -164,10 +167,10 @@ public class ChatListFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if(s.toString().trim().length()>10){
-                    mNewChatButton.setEnabled(true);
+                    mNewChatButton.setClickable(true);
 
                 }else{
-                    mNewChatButton.setEnabled(false);
+                    mNewChatButton.setClickable(false);
 
                 }
 
