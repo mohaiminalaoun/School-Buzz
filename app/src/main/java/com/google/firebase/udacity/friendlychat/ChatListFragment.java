@@ -225,6 +225,20 @@ public class ChatListFragment extends Fragment {
         });
 
 
+        //TODO: Set long click delete / edit option
+        mConversationListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("Clicked item, ","LONG CLICK");
+                //Note: return true
+                ((MainActivity) getActivity()).showAddMealDialog(view);
+                return true;
+            }
+        });
+
+
+
+
 
         return rootView;
     }

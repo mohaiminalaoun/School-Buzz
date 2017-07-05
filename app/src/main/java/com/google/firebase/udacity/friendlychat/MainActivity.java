@@ -3,8 +3,10 @@ package com.google.firebase.udacity.friendlychat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 /**
  * Created by Mohaimin on 7/2/2017.
@@ -42,5 +44,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
         return;
+    }
+
+
+    public void showAddMealDialog(View view) {
+        /* Create an instance of the dialog fragment and show it */
+        AlertDeleteFragment dialog = AlertDeleteFragment.newInstance();
+        dialog.show(MainActivity.this.getFragmentManager(), "AddMealDialogFragment");
     }
 }
