@@ -27,7 +27,7 @@ public class AlertDeleteFragment extends DialogFragment
          * passes a bundle with data into it when adapter is created
          */
 
-    public static AlertDeleteFragment newInstance(int chatId) {
+    public static AlertDeleteFragment newInstance() {
         AlertDeleteFragment alertDeleteFragment = new AlertDeleteFragment();
         Bundle bundle = new Bundle();
         alertDeleteFragment.setArguments(bundle);
