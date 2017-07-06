@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void showAddMealDialog(View view) {
+    public void showAddMealDialog(View view, String mId) {
         /* Create an instance of the dialog fragment and show it */
-        AlertDeleteFragment dialog = AlertDeleteFragment.newInstance();
+        AlertDeleteFragment dialog = AlertDeleteFragment.newInstance(mId);
         dialog.show(MainActivity.this.getFragmentManager(), "AddMealDialogFragment");
     }
 }

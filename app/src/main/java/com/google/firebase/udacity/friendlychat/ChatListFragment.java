@@ -121,7 +121,28 @@ public class ChatListFragment extends Fragment {
 
                             @Override
                             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                FriendlyConversation fc = dataSnapshot.getValue(FriendlyConversation.class);
+                                if(fc.getTitle()!=null){
+                                    Log.e("REMOVE: ", fc.getTitle());
+                                }else{
+                                    Log.e("IT:"," IS NULLL WTFFFF");
+                                }
 
+                                mConversationAdapter.remove(fc);
+                                //TODO: this doesn't refresh the listview WHYYYYYYY
+                                synchronized (mConversationAdapter){
+                                    mConversationAdapter.notifyDataSetChanged();
+                                    mConversationAdapter.notify();
+                                }
+
+                               getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.e("THIS"," IS BEING CALLED");
+                                        mConversationAdapter.notifyDataSetChanged();
+                                        Log.e("THIS 2"," IS BEING CALLED");
+                                    }
+                                });
                             }
 
                             @Override
@@ -202,8 +223,9 @@ public class ChatListFragment extends Fragment {
 
                     DatabaseReference df = mMessagesDatabaseReference.push();
                     String id =df.getKey();
+                    Log.e("id i just pushed is ",""+id);
                     fc.setId(id);
-                    mMessagesDatabaseReference.push().setValue(fc);
+                    mMessagesDatabaseReference.child(id).setValue(fc);
                     mChatEditTitle.setText("");
                 }else{
                     Toast.makeText(getActivity(),"Message must be mundane!",Toast.LENGTH_LONG).show();
@@ -230,8 +252,10 @@ public class ChatListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("Clicked item, ","LONG CLICK");
-                //Note: return true
-                ((MainActivity) getActivity()).showAddMealDialog(view);
+                //Note: return true to stop from doing single click after dbl click
+                FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
+                String mId = fc.getId();
+                ((MainActivity) getActivity()).showAddMealDialog(view, mId);
                 return true;
             }
         });
@@ -293,6 +317,13 @@ public class ChatListFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("asdasd", "    notifying");
+        mConversationAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -15,7 +15,6 @@
         android:text="Are you sure you want to delete?"
         android:textAlignment="center"
         android:imeOptions="actionDone|flagNoExtractUi"
-        android:inputType="textCapWords"
         android:textColor="@color/cardview_dark_background"
         android:textColorHint="@color/colorAccent" />
 

@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -27,9 +32,10 @@ public class AlertDeleteFragment extends DialogFragment
          * passes a bundle with data into it when adapter is created
          */
 
-    public static AlertDeleteFragment newInstance() {
+    public static AlertDeleteFragment newInstance(String conversationId) {
         AlertDeleteFragment alertDeleteFragment = new AlertDeleteFragment();
         Bundle bundle = new Bundle();
+        bundle.putSerializable("mId", conversationId);
         alertDeleteFragment.setArguments(bundle);
         return alertDeleteFragment;
     }
@@ -59,6 +65,7 @@ public class AlertDeleteFragment extends DialogFragment
         /* Get the layout inflater */
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View rootView = inflater.inflate(R.layout.dialog_add_meal, null);
+        final String mId = (String )getArguments().getSerializable("mId");
 
         /* Inflate and set the layout for the dialog */
         /* Pass null as the parent view because its going in the dialog layout */
@@ -67,7 +74,7 @@ public class AlertDeleteFragment extends DialogFragment
                 .setPositiveButton("Delete Thread", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        deleteConversation();
+                        deleteConversation(mId);
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -79,8 +86,12 @@ public class AlertDeleteFragment extends DialogFragment
         return builder.create();
     }
 
-        private void deleteConversation() {
-
+        private void deleteConversation(String mId) {
+            FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+            FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+            Log.e("TAG: --> ",""+mFirebaseDatabase.getReference().child("chats").child(mId));
+            mFirebaseDatabase.getReference().child("chats").child(mId).setValue(null);
+            Log.e("TAG", " "+mId);
         }
 
 
