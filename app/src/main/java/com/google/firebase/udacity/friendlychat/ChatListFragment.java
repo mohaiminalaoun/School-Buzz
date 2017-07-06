@@ -227,6 +227,10 @@ public class ChatListFragment extends Fragment {
                     fc.setId(id);
                     mMessagesDatabaseReference.child(id).setValue(fc);
                     mChatEditTitle.setText("");
+
+                    //TODO: remove this after testing
+                    Intent intent = new Intent(getActivity(), StartNewConversationActivity.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(getActivity(),"Message must be mundane!",Toast.LENGTH_LONG).show();
                 }
