@@ -215,8 +215,7 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String test = mChatEditTitle.getText().toString();
-                if(test.length()>10){
-                    Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
+                    /*Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
                     //use defualt users name
                     String defaultUsers = mUsername;
                     FriendlyConversation fc = new FriendlyConversation(test, defaultUsers, "");
@@ -226,14 +225,12 @@ public class ChatListFragment extends Fragment {
                     Log.e("id i just pushed is ",""+id);
                     fc.setId(id);
                     mMessagesDatabaseReference.child(id).setValue(fc);
-                    mChatEditTitle.setText("");
+                    mChatEditTitle.setText("");*/
 
                     //TODO: remove this after testing
                     Intent intent = new Intent(getActivity(), StartNewConversationActivity.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(getActivity(),"Message must be mundane!",Toast.LENGTH_LONG).show();
-                }
+
 
             }
         });
