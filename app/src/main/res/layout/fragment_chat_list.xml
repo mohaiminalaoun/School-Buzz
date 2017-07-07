@@ -20,40 +20,24 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/linearLayout" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <EditText
-            android:id="@+id/chatEditTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            tools:text="new chat"
-            android:hint="Add title to new conversation"
-            android:background="#FFFFFF"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:scaleType="fitCenter"
-            android:layout_margin="10dp"
             app:borderWidth="0dp"
             android:clickable="false"
             app:rippleColor="@color/colorTitle"
             app:elevation="6dp"
             android:id="@+id/fab"
             android:src="@drawable/add"
-            android:layout_gravity="right|bottom" />
+            android:layout_gravity="right|bottom"
+            android:layout_weight="0.91"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
-    </LinearLayout>
 
 </RelativeLayout>

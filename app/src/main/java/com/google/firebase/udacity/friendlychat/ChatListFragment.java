@@ -76,7 +76,7 @@ public class ChatListFragment extends Fragment {
                 (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
         mNewChatButton.setClickable(false);
         Log.e("CHAT FRAG: ",""+mNewChatButton.isClickable());
-        final EditText mChatEditTitle = (EditText) rootView.findViewById(R.id.chatEditTitle);
+
         //Firebase stuff
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -182,39 +182,10 @@ public class ChatListFragment extends Fragment {
 
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
 
-        mChatEditTitle.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if(s.toString().trim().length()>10){
-                    mNewChatButton.setClickable(true);
-
-                }else{
-                    mNewChatButton.setClickable(false);
-
-                }
-
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-
-            }
-        });
         mNewChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String test = mChatEditTitle.getText().toString();
                     /*Toast.makeText(getActivity(), test, Toast.LENGTH_LONG).show();
                     //use defualt users name
                     String defaultUsers = mUsername;
