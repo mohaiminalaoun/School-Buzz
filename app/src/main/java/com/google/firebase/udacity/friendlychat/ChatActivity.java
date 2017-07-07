@@ -75,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
     private EditText mMessageEditText;
-    private Button mSendButton;
+    private ImageButton mSendButton;
 
     private String mUsername;
 
@@ -128,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
         mMessageListView = (ListView) findViewById(R.id.messageListView);
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (Button) findViewById(R.id.sendButton);
+        mSendButton = (ImageButton) findViewById(R.id.sendButton);
 
         // Initialize message ListView and its adapter
         List<FriendlyMessage> friendlyMessages = new ArrayList<>();
@@ -161,9 +161,11 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
-                    mSendButton.setEnabled(true);
+                    mSendButton.setImageResource(R.drawable.send_icon);
+                    mSendButton.setClickable(true);
                 } else {
-                    mSendButton.setEnabled(false);
+                    mSendButton.setImageResource(R.drawable.send_icon_disabled);
+                    mSendButton.setClickable(false);
                 }
             }
 
