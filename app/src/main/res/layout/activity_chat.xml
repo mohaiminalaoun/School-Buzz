@@ -44,9 +44,14 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
-        <ImageButtonButton
+
+        <ImageButton
             android:id="@+id/sendButton"
-            android:src="@drawable/send_icon"
+            android:background="#0000"
+            android:hapticFeedbackEnabled="true"
+            android:maxWidth="12dp"
+            android:maxHeight="12dp"
+            android:src="@drawable/send_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

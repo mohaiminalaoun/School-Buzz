@@ -28,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -161,10 +160,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
-                    mSendButton.setImageResource(R.drawable.send_icon);
+                    mSendButton.setImageResource(R.drawable.send_green);
                     mSendButton.setClickable(true);
                 } else {
-                    mSendButton.setImageResource(R.drawable.send_icon_disabled);
+                    mSendButton.setImageResource(R.drawable.send_grey);
                     mSendButton.setClickable(false);
                 }
             }
