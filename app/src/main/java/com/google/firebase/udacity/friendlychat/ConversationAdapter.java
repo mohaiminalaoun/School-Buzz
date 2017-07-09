@@ -46,7 +46,18 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
 
         FriendlyConversation friendlyConversation = getItem(position);
         conversationTitle.setText(friendlyConversation.getTitle());
-        userNameConversation.setText(friendlyConversation.getUsers());
+        //show 1st name +"and"+ number + others
+
+        String users = friendlyConversation.getUsers();
+        String[] arr2 = users.split(",");
+        if(arr2.length==1){
+            userNameConversation.setText(arr2[0]);
+        }else if (arr2.length==2){
+            userNameConversation.setText(arr2[0]+" and "+arr2[1]);
+        }else{
+            userNameConversation.setText(arr2[0]+" and "+(arr2.length-1)+" others");
+        }
+
 
 
         long mtime = friendlyConversation.getEpochTime();
