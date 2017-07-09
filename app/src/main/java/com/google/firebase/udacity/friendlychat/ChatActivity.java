@@ -16,6 +16,7 @@
 package com.google.firebase.udacity.friendlychat;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -160,10 +161,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() > 0) {
-                    mSendButton.setImageResource(R.drawable.send_green);
+                    mSendButton.setBackground(getResources().getDrawable(R.drawable.send_green));
                     mSendButton.setClickable(true);
                 } else {
-                    mSendButton.setImageResource(R.drawable.send_grey);
+                    mSendButton.setBackground(getResources().getDrawable(R.drawable.send_grey));
                     mSendButton.setClickable(false);
                 }
             }
