@@ -160,11 +160,14 @@ public class StartNewConversationActivity extends AppCompatActivity {
                     FriendlyMessage friendlyMessage = new FriendlyMessage
                             (newConversation.getText().toString(), mUsername, null,id);
                     Log.e("onCLick",id);
-                    mMessagesDatabaseReference2.push().setValue(friendlyMessage); // this saves the value
+                    if(newConversation.getText().length()>0){
+                        mMessagesDatabaseReference2.push().setValue(friendlyMessage); // this saves the value
+                    }
+
                     Log.d("MainActivty", "Checking if this is printing");
 
                     // Clear input box
-                    goToChatActivity(id);
+                    goToChatActivity(id, defaultUsers);
 
                 }else{
                     Toast.makeText(StartNewConversationActivity.this,"Message must be mundane!",Toast.LENGTH_LONG).show();
@@ -176,7 +179,7 @@ public class StartNewConversationActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void goToChatActivity(String id) {
+    private void goToChatActivity(String id, String users) {
         Intent intent = new Intent(StartNewConversationActivity.this, ChatActivity.class);
         intent.putExtra("clickedId",id);
         Log.e("TAGid",id);

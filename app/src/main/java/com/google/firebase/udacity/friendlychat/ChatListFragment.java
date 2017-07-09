@@ -241,7 +241,7 @@ public class ChatListFragment extends Fragment {
                 // TODO: get conversation details and pass them to the chat activity
                 String mId = fc.getId();
                 String title = fc.getTitle();
-                goToChatActivity(mId, title);
+                goToChatActivity(mId, title, fc.getUsers());
             }
         });
 
@@ -267,10 +267,11 @@ public class ChatListFragment extends Fragment {
         return rootView;
     }
 
-    private void goToChatActivity(String mId, String title) {
+    private void goToChatActivity(String mId, String title, String users) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("clickedId",mId);
         intent.putExtra("title", title);
+        intent.putExtra("users", users);
         Log.e("TAGid",mId);
         startActivity(intent);
     }

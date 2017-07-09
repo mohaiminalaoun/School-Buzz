@@ -88,9 +88,12 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mSendButton;
 
     private String mUsername;
+    private String users;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
+    private DatabaseReference mChatDatabaseReference;
+    private ChildEventListener mChatDBEventListener;
     private ChildEventListener mChildEventListener;
 
     //Working on AuthListener
@@ -124,6 +127,8 @@ public class ChatActivity extends AppCompatActivity {
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
         mChatPhotoStorageReference = mFirebaseStorage.getReference().child("chat_photos");
 
+
+
         //TODO: get string extra, i.e. id of the chat from where it comes
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
@@ -132,11 +137,22 @@ public class ChatActivity extends AppCompatActivity {
         this.chatId = b.getString("clickedId");
         Log.e("chat id'set =",this.chatId);
         String titleGotten = b.getString("title");
-        if(titleGotten.length()<30){
-            setTitle(titleGotten);
-        }else{
-            setTitle(titleGotten.substring(0,25)+"...");
+
+        // set up collecting names of users
+        //chatDB reference
+        mChatDatabaseReference = mFirebaseDatabase.getReference().child("chats");
+        String info = mChatDatabaseReference.child(chatId).toString();
+        Log.e("USRS: ", b.getString("users"));
+        this.users = b.getString("users");
+
+        if(titleGotten!=null){
+            if(titleGotten.length()<30){
+                setTitle(titleGotten);
+            }else{
+                setTitle(titleGotten.substring(0,25)+"...");
+            }
         }
+
 
 
         // Initialize references to views
@@ -214,6 +230,11 @@ public class ChatActivity extends AppCompatActivity {
 
                 // Clear input box
                 mMessageEditText.setText("");
+                if(!users.contains(mUsername)){
+                     mChatDatabaseReference.child(chatId).child("users").setValue(users+","+mUsername);
+                    users=users+","+mUsername;
+                }
+
 
 
             }
