@@ -3,6 +3,7 @@ package com.google.firebase.udacity.friendlychat;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +77,9 @@ public class ChatListFragment extends Fragment {
         final android.support.design.widget.FloatingActionButton mNewChatButton =
                 (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
         mNewChatButton.setClickable(false);
+        mNewChatButton.show();
         Log.e("CHAT FRAG: ",""+mNewChatButton.isClickable());
+
 
         //Firebase stuff
         FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -87,6 +91,20 @@ public class ChatListFragment extends Fragment {
 
         final ListView mConversationListView = (ListView) rootView.findViewById(R.id.conversationListViewFragment);
         Log.e("CLF ", mConversationListView.toString() );
+
+        //set onScroll listener
+        mConversationListView.setOnScrollListener(new ListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                mNewChatButton.show();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.e("CLF: ", "scrolling");
+                mNewChatButton.hide();
+            }
+        });
 
         List<FriendlyConversation> conversations = new ArrayList<>();
         mConversationAdapter = new ConversationAdapter(getActivity(), R.layout.item_conversation, conversations);
@@ -211,7 +229,8 @@ public class ChatListFragment extends Fragment {
         mConversationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
+                FriendlyConversation fc = (FriendlyConversation)
+                        mConversationListView.getItemAtPosition(position);
                 // TODO: get conversation details and pass them to the chat activity
                 String mId = fc.getId();
                 goToChatActivity(mId);
@@ -225,7 +244,8 @@ public class ChatListFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("Clicked item, ","LONG CLICK");
                 //Note: return true to stop from doing single click after dbl click
-                FriendlyConversation fc = (FriendlyConversation) mConversationListView.getItemAtPosition(position);
+                FriendlyConversation fc = (FriendlyConversation)
+                        mConversationListView.getItemAtPosition(position);
                 String mId = fc.getId();
                 ((MainActivity) getActivity()).showAddMealDialog(view, mId);
                 return true;

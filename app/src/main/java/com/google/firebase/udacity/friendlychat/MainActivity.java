@@ -13,7 +13,8 @@ import android.view.View;
  */
 
 public class MainActivity extends AppCompatActivity
-        implements StatusFragment.OnFragmentInteractionListener, ChatListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
+        implements StatusFragment.OnFragmentInteractionListener,
+        ChatListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
