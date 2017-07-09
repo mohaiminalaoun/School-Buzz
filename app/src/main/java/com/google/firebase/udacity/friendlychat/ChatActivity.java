@@ -361,9 +361,13 @@ public class ChatActivity extends AppCompatActivity {
                     //snapshot is current snapshot, then we seseriaze the snapshot to FM
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
 
-                    //Log.e("check  ",friendlyMessage.getText()+" "+friendlyMessage.getName()+" "+friendlyMessage.chatId);
+
                     if(friendlyMessage.chatId!=null && friendlyMessage.getChatId().equals(chatId)){
                         mMessageAdapter.add(friendlyMessage);
+                        //Check if the chat has all the users
+                        DatabaseReference mChatDBRef =
+                                mFirebaseDatabase.getReference().child("chats");
+                        Log.e("chatActivity", mChatDBRef.child(chatId).toString());
                     }else{
 
                     }

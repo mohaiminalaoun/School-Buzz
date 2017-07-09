@@ -62,6 +62,7 @@ public class ChatListFragment extends Fragment {
     private ConversationAdapter mConversationAdapter;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private String mUsername;
+    android.support.design.widget.FloatingActionButton mNewChatButton;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -74,11 +75,11 @@ public class ChatListFragment extends Fragment {
         Log.e("ChatListFragement", " onCreateView() is called");
         View rootView = inflater.inflate(R.layout.fragment_chat_list, container, false);
         //TODO: copy Oncreate function from ChatListActivity
-        final android.support.design.widget.FloatingActionButton mNewChatButton =
+        mNewChatButton =
                 (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
-        mNewChatButton.setClickable(false);
         mNewChatButton.show();
         Log.e("CHAT FRAG: ",""+mNewChatButton.isClickable());
+        mNewChatButton.show();
 
 
         //Firebase stuff
@@ -96,13 +97,19 @@ public class ChatListFragment extends Fragment {
         mConversationListView.setOnScrollListener(new ListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.e("CLF: ","scroll state changed");
                 mNewChatButton.show();
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 Log.e("CLF: ", "scrolling");
-                mNewChatButton.hide();
+                Log.e("CLF: total", " count is "+totalItemCount);
+                if(totalItemCount>visibleItemCount) {
+                    mNewChatButton.hide();
+                }else{
+                    mNewChatButton.show();
+                }
             }
         });
 
@@ -317,6 +324,7 @@ public class ChatListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.e("asdasd", "    notifying");
+        mNewChatButton.show();
         mConversationAdapter.notifyDataSetChanged();
     }
 
