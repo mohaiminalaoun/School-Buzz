@@ -233,7 +233,8 @@ public class ChatListFragment extends Fragment {
                         mConversationListView.getItemAtPosition(position);
                 // TODO: get conversation details and pass them to the chat activity
                 String mId = fc.getId();
-                goToChatActivity(mId);
+                String title = fc.getTitle();
+                goToChatActivity(mId, title);
             }
         });
 
@@ -259,9 +260,10 @@ public class ChatListFragment extends Fragment {
         return rootView;
     }
 
-    private void goToChatActivity(String mId) {
+    private void goToChatActivity(String mId, String title) {
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("clickedId",mId);
+        intent.putExtra("title", title);
         Log.e("TAGid",mId);
         startActivity(intent);
     }

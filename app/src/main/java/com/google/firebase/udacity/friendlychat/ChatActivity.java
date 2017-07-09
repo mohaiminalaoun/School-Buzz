@@ -19,12 +19,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -129,6 +131,12 @@ public class ChatActivity extends AppCompatActivity {
         Log.e("string i get -> ",b.getString("clickedId"));
         this.chatId = b.getString("clickedId");
         Log.e("chat id'set =",this.chatId);
+        String titleGotten = b.getString("title");
+        if(titleGotten.length()<30){
+            setTitle(titleGotten);
+        }else{
+            setTitle(titleGotten.substring(0,25)+"...");
+        }
 
 
         // Initialize references to views
