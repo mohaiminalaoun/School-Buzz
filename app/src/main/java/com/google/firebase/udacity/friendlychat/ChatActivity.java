@@ -15,10 +15,14 @@
  */
 package com.google.firebase.udacity.friendlychat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -51,6 +55,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,6 +71,8 @@ public class ChatActivity extends AppCompatActivity {
     public static final int RC_SIGN_IN = 1; // signed in is 1
     private static final int RC_PHOTO_PICKER = 2;
     private static final String FRIENDLY_MESSAGE_LENGTH_KEY = "friendly_msg_length";
+    private static final int REQUEST_IMAGE_CAPTURE = 3;
+    private static final int MY_REQUEST_CODE = 1;
 
     //TODO: chatid
     private String chatId;
@@ -74,6 +81,7 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter mMessageAdapter;
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
+    private ImageButton mCameraButton;
     private EditText mMessageEditText;
     private ImageButton mSendButton;
 
@@ -127,6 +135,7 @@ public class ChatActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mMessageListView = (ListView) findViewById(R.id.messageListView);
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
+        mCameraButton = (ImageButton) findViewById(R.id.cameraButton);
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
         mSendButton = (ImageButton) findViewById(R.id.sendButton);
 
@@ -149,6 +158,13 @@ public class ChatActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Complete Action Using"), RC_PHOTO_PICKER);
 
 
+            }
+        });
+
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
             }
         });
 
@@ -281,7 +297,30 @@ public class ChatActivity extends AppCompatActivity {
                             mMessagesDatabaseReference.push().setValue(fm);
                         }
                     });
+        }else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Uri selectedImageUri = getImageUri(this, imageBitmap);
+            StorageReference photoRef = mChatPhotoStorageReference.child(selectedImageUri.getLastPathSegment());
+
+            //upload to firebase storage
+            photoRef.putFile(selectedImageUri).addOnSuccessListener(
+                    this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                            FriendlyMessage fm = new FriendlyMessage(null, mUsername, downloadUrl.toString(), chatId);
+                            mMessagesDatabaseReference.push().setValue(fm);
+                        }
+                    });
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void onSignedInInitialize(String userName) {
@@ -380,6 +419,21 @@ public class ChatActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+    private void dispatchTakePictureIntent() {
+        if (checkSelfPermission(android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, " no camera permission granted");
+            requestPermissions(new String[]{android.Manifest.permission.CAMERA},
+                    REQUEST_IMAGE_CAPTURE);
+        }
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
