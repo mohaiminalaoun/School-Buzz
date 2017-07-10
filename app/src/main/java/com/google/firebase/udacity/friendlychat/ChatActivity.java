@@ -132,6 +132,9 @@ public class ChatActivity extends AppCompatActivity {
         //TODO: get string extra, i.e. id of the chat from where it comes
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
+        if(b==null){
+            Log.e(TAG, "bundle in null");
+        }
         Log.e("bundle --> ", b.toString());
         Log.e("string i get -> ",b.getString("clickedId"));
         this.chatId = b.getString("clickedId");
@@ -142,7 +145,6 @@ public class ChatActivity extends AppCompatActivity {
         //chatDB reference
         mChatDatabaseReference = mFirebaseDatabase.getReference().child("chats");
         String info = mChatDatabaseReference.child(chatId).toString();
-        Log.e("USRS: ", b.getString("users"));
         this.users = b.getString("users");
 
         if(titleGotten!=null){
