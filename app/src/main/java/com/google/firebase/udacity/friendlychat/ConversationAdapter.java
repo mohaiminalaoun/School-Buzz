@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -33,13 +34,14 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
             convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_conversation, parent, false);
         }
 
-        ImageView conversationIcon = (ImageView) convertView.findViewById(R.id.conversationIcon);
+        ImageView conversationIcon = (ImageView) convertView.findViewById(R.id.chatIcon);
         ColorWheel cw = new ColorWheel();
         //conversationIcon.setBackgroundColor(cw.getColor());
-        new DownloadImageTask(conversationIcon)
-                .execute("https://www.gravatar.com/avatar/"+
-                        getItem(position).getEpochTime()+"?s=55&d=identicon&r=PG");
+        //new DownloadImageTask(conversationIcon)
+                //.execute("https://www.gravatar.com/avatar/"+
+                  //      getItem(position).getEpochTime()+"?s=55&d=identicon&r=PG");
 
+        ImageView chatIcon = (ImageView) convertView.findViewById(R.id.chatIcon);
         TextView conversationTitle = (TextView) convertView.findViewById(R.id.conversationTitle);
         TextView userNameConversation = (TextView) convertView.findViewById(R.id.userNameConversation);
         TextView time = (TextView) convertView.findViewById(R.id.time);
@@ -57,6 +59,9 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
         }else{
             userNameConversation.setText(arr2[0]+" and "+(arr2.length-1)+" others");
         }
+
+        TextView letterIcon = (TextView)convertView.findViewById(R.id.nameIcon);
+        letterIcon.setText(users.substring(0,1).toUpperCase());
 
 
 
@@ -95,7 +100,7 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
 
         protected void onPostExecute(Bitmap result) {
             Bitmap resizedBitmap = result.createScaledBitmap(result,42,42,true);
-            bmImage.setImageBitmap(resizedBitmap);
+            //bmImage.setImageBitmap(resizedBitmap);
         }
     }
 
