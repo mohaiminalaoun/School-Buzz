@@ -42,7 +42,7 @@
         android:textColor="@color/colorTitle"
         android:textSize="16sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Message"
+        tools:text="My test message full of :)s and typos"
         android:paddingBottom="3dp"/>
 
 </LinearLayout>
