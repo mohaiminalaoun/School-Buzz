@@ -19,7 +19,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textCapSentences|textNoSuggestions"
+        android:inputType="textCapSentences|textAutoCorrect"
         android:hint="Post New Conversation Title"
         android:paddingLeft="5dp"
         android:paddingTop="10dp"

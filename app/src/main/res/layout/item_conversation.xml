@@ -10,6 +10,7 @@
     <ImageView
         android:backgroundTint="@color/cardview_dark_background"
         android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
         android:id="@+id/chatIcon"
         android:layout_marginTop="6dp"
         android:layout_width="40dp"
@@ -24,7 +25,7 @@
         android:textColor="@color/colorTitle"
         android:textSize="15sp"
         android:scrollHorizontally="true"
-        android:maxLines="1"
+        android:maxLines="2"
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="Message Message Message Message Message Message Message Message Message"
         android:textAllCaps="false"
@@ -64,12 +65,10 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:id="@+id/nameIcon"
+        android:paddingLeft="6.5dp"
+        android:paddingTop="17dp"
         tools:text="M"
-        android:layout_marginLeft="0dp"
         android:textColor="@color/whitegrey"
-        android:layout_marginEnd="18dp"
-        android:layout_alignBottom="@+id/conversationTitle"
-        android:layout_toStartOf="@+id/time"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginStart="11dp" />
 
 </RelativeLayout>

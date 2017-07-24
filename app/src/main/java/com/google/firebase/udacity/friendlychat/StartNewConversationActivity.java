@@ -139,7 +139,7 @@ public class StartNewConversationActivity extends AppCompatActivity {
 
                 //TODO: what happens when you click on new post
                 String test = mChatEditTitle.getText().toString();
-                if(test.length()>10){
+                if(test.length()>10 && test.length()<=91){
                     //TODO:FIXXXXXXXXXXXXX THIS
                     Toast.makeText(StartNewConversationActivity.this, test, Toast.LENGTH_LONG).show();
                     //use defualt users name
@@ -169,8 +169,12 @@ public class StartNewConversationActivity extends AppCompatActivity {
                     // Clear input box
                     goToChatActivity(id, defaultUsers);
 
+                }else if(test.length()<10){
+                    Toast.makeText(StartNewConversationActivity.this,
+                            "Message must be mundane!",Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(StartNewConversationActivity.this,"Message must be mundane!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(StartNewConversationActivity.this,
+                            "Your message must be shorter", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
