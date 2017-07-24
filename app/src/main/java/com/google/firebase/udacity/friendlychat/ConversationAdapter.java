@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -42,6 +44,8 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
                   //      getItem(position).getEpochTime()+"?s=55&d=identicon&r=PG");
 
         ImageView chatIcon = (ImageView) convertView.findViewById(R.id.chatIcon);
+        int color = Color.parseColor("#AE6118"); //The color u want
+
         TextView conversationTitle = (TextView) convertView.findViewById(R.id.conversationTitle);
         TextView userNameConversation = (TextView) convertView.findViewById(R.id.userNameConversation);
         TextView time = (TextView) convertView.findViewById(R.id.time);
@@ -51,6 +55,9 @@ public class ConversationAdapter  extends ArrayAdapter<FriendlyConversation> {
         //show 1st name +"and"+ number + others
 
         String users = friendlyConversation.getUsers();
+
+        GradientDrawable background = (GradientDrawable) chatIcon.getBackground();
+        background.setColor(cw.getColor(users));
         String[] arr2 = users.split(",");
         if(arr2.length==1){
             userNameConversation.setText(arr2[0]);

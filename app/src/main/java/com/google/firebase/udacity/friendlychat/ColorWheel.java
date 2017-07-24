@@ -5,6 +5,7 @@ package com.google.firebase.udacity.friendlychat;
  */
 import java.util.Random;
 import android.graphics.Color;
+import android.util.Log;
 
 public class ColorWheel {
     public String[] mColors = {
@@ -36,6 +37,19 @@ public class ColorWheel {
         int randomNumber = randomGenerator.nextInt(mColors.length);
         color = mColors[randomNumber];
         int colorAsInt= Color.parseColor(color);
+        return colorAsInt;
+    }
+
+    public int getColor(String user){
+        String color;
+        //Randomly select a fact
+        int num = 0;
+        for(int i = 0; i < user.length(); i++){
+            num+=user.charAt(i)*i;
+        }
+        color = mColors[num%mColors.length];
+        int colorAsInt= Color.parseColor(color);
+        Log.e("---------", "color should be "+colorAsInt);
         return colorAsInt;
     }
 
