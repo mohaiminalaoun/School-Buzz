@@ -39,8 +39,11 @@
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorTitle"
+        android:textColor="@color/whitegrey"
         android:textSize="16sp"
+        android:background="@drawable/rounded_corner"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         tools:text="My test message full of :)s and typos"
         android:paddingBottom="3dp"/>
