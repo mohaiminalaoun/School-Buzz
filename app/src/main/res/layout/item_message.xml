@@ -29,6 +29,7 @@
 
 
     <ImageView
+        android:layout_margin="5dp"
         android:id="@+id/photoImageView"
         android:layout_width="200sp"
         android:scaleType="fitCenter"
@@ -38,6 +39,7 @@
     <TextView
         android:id="@+id/messageTextView"
         android:layout_width="wrap_content"
+        android:maxWidth="270dp"
         android:layout_height="wrap_content"
         android:textColor="@color/whitegrey"
         android:textSize="16sp"
