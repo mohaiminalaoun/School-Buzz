@@ -44,6 +44,7 @@
         android:textColor="@color/whitegrey"
         android:textSize="16sp"
         android:background="@drawable/rounded_corner"
+        android:layout_margin="2dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
