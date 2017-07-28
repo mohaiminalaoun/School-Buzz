@@ -29,6 +29,7 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
 
         ImageView photoImageView = (ImageView) convertView.findViewById(R.id.photoImageView);
         TextView messageTextView = (TextView) convertView.findViewById(R.id.messageTextView);
+        TextView replyTextView = (TextView) convertView.findViewById(R.id.messageTextView2);
         TextView authorTextView = (TextView) convertView.findViewById(R.id.nameTextView);
         TextView timeTextView = (TextView) convertView.findViewById(R.id.time);
 
@@ -45,6 +46,7 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             messageTextView.setVisibility(View.VISIBLE);
             photoImageView.setVisibility(View.GONE);
             messageTextView.setText(message.getText());
+            replyTextView.setText(message.getText());
         }
         authorTextView.setText(message.getName());
 
@@ -64,6 +66,8 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         if(position==0){
             authorTextView.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.VISIBLE);
+            replyTextView.setVisibility(View.GONE);
+            //message text view is the first message
         }
         else if(position>0) {
             FriendlyMessage tempMessage = getItem(position - 1);
@@ -74,6 +78,16 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             else {
                 authorTextView.setVisibility(View.VISIBLE);
                 timeTextView.setVisibility(View.VISIBLE);
+            }
+
+            //check if author of current message is same as author of first message
+            FriendlyMessage firstMessage = getItem(0);
+            if(message.getName().equals(firstMessage.getName())){
+                replyTextView.setVisibility(View.GONE);
+                messageTextView.setVisibility(View.VISIBLE);
+            }else{
+                messageTextView.setVisibility(View.GONE);
+                replyTextView.setVisibility(View.VISIBLE);
             }
 
         }
