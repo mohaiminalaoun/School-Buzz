@@ -39,14 +39,20 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         if (isPhoto) {
             messageTextView.setVisibility(View.GONE);
             photoImageView.setVisibility(View.VISIBLE);
+            replyTextView.setVisibility(View.GONE);
             Glide.with(photoImageView.getContext())
                     .load(message.getPhotoUrl())
                     .into(photoImageView);
         } else {
             messageTextView.setVisibility(View.VISIBLE);
+            replyTextView.setVisibility(View.VISIBLE);
             photoImageView.setVisibility(View.GONE);
             messageTextView.setText(message.getText());
             replyTextView.setText(message.getText());
+            if(messageTextView.getText()==""|| messageTextView.getText()==null){
+                messageTextView.setVisibility(View.GONE);
+                replyTextView.setVisibility(View.GONE);
+            }
         }
         authorTextView.setText(message.getName());
 
@@ -69,16 +75,7 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             replyTextView.setVisibility(View.GONE);
             //message text view is the first message
         }
-        else if(position>0) {
-            FriendlyMessage tempMessage = getItem(position - 1);
-            if (message.getName().equals(tempMessage.getName())){
-                authorTextView.setVisibility(View.GONE);
-                timeTextView.setVisibility(View.GONE);
-            }
-            else {
-                authorTextView.setVisibility(View.VISIBLE);
-                timeTextView.setVisibility(View.VISIBLE);
-            }
+        else if(position>0 && !isPhoto) {
 
             //check if author of current message is same as author of first message
             FriendlyMessage firstMessage = getItem(0);
@@ -89,6 +86,18 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
                 messageTextView.setVisibility(View.GONE);
                 replyTextView.setVisibility(View.VISIBLE);
             }
+
+            FriendlyMessage tempMessage = getItem(position - 1);
+            if (message.getName().equals(tempMessage.getName())){
+                authorTextView.setVisibility(View.GONE);
+                timeTextView.setVisibility(View.GONE);
+            }
+            else {
+                authorTextView.setVisibility(View.VISIBLE);
+                timeTextView.setVisibility(View.VISIBLE);
+            }
+
+
 
         }
 
