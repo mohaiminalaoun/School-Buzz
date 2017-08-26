@@ -2,6 +2,7 @@ package com.google.firebase.udacity.friendlychat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
@@ -47,8 +49,16 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             messageTextView.setVisibility(View.VISIBLE);
             replyTextView.setVisibility(View.VISIBLE);
             photoImageView.setVisibility(View.GONE);
+
+            // regex replace all .coms with <a href="MY_LINK.com>
+            String unchangedMessage = message.getText();
+
+
             messageTextView.setText(message.getText());
             replyTextView.setText(message.getText());
+
+
+
             if(messageTextView.getText()==""|| messageTextView.getText()==null){
                 messageTextView.setVisibility(View.GONE);
                 replyTextView.setVisibility(View.GONE);
@@ -100,6 +110,11 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
 
 
         }
+
+
+        // method to make links clickable
+
+        messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         return convertView;
     }
