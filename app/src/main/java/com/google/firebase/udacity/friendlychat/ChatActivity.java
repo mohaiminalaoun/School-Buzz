@@ -67,6 +67,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -91,6 +92,35 @@ public class ChatActivity extends AppCompatActivity {
     @BindView(R.id.cameraButton) ImageButton mCameraButton;
     @BindView(R.id.messageEditText) EditText mMessageEditText;
     @BindView(R.id.sendButton) ImageButton mSendButton;
+
+    // ImagePickerButton shows an image picker to upload a image for a message
+    @OnClick(R.id.photoPickerButton) void pickPhoto(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        startActivityForResult(Intent.createChooser(intent, "Complete Action Using"), RC_PHOTO_PICKER);
+    }
+
+    @OnClick(R.id.cameraButton) void takePicture(){
+        dispatchTakePictureIntent();
+    }
+    // Send button sends a message and clears the EditText
+    @OnClick(R.id.sendButton) void send(){
+        FriendlyMessage friendlyMessage = new FriendlyMessage
+                (mMessageEditText.getText().toString(), mUsername, null,chatId);
+        Log.e("onCLick",chatId);
+        mMessagesDatabaseReference.push().setValue(friendlyMessage); // this saves the value
+        Log.d("MainActivty", "Checking if this is printing");
+
+        // Clear input box
+        mMessageEditText.setText("");
+        if(!users.contains(mUsername)){
+            mChatDatabaseReference.child(chatId).child("users").setValue(users+","+mUsername);
+            users=users+","+mUsername;
+        }
+
+    }
+
 
     private String mUsername;
     private String users;
@@ -170,26 +200,6 @@ public class ChatActivity extends AppCompatActivity {
         // Initialize progress bar
         mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
-        // ImagePickerButton shows an image picker to upload a image for a message
-        mPhotoPickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Fire an intent to show an image picker
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(Intent.createChooser(intent, "Complete Action Using"), RC_PHOTO_PICKER);
-
-
-            }
-        });
-
-        mCameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
 
         // Enable Send button when there's text to send
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -214,30 +224,7 @@ public class ChatActivity extends AppCompatActivity {
         });
         mMessageEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_MSG_LENGTH_LIMIT)});
 
-        // Send button sends a message and clears the EditText
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Send messages on click
 
-
-                FriendlyMessage friendlyMessage = new FriendlyMessage
-                        (mMessageEditText.getText().toString(), mUsername, null,chatId);
-                Log.e("onCLick",chatId);
-                mMessagesDatabaseReference.push().setValue(friendlyMessage); // this saves the value
-                Log.d("MainActivty", "Checking if this is printing");
-
-                // Clear input box
-                mMessageEditText.setText("");
-                if(!users.contains(mUsername)){
-                     mChatDatabaseReference.child(chatId).child("users").setValue(users+","+mUsername);
-                    users=users+","+mUsername;
-                }
-
-
-
-            }
-        });
 
 
         // create auth listener // type new authstatelistener and wait for autocomplete :p

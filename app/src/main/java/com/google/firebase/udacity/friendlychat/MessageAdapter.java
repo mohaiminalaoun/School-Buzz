@@ -49,8 +49,6 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
             messageTextView.setVisibility(View.VISIBLE);
             replyTextView.setVisibility(View.VISIBLE);
             photoImageView.setVisibility(View.GONE);
-
-            // regex replace all .coms with <a href="MY_LINK.com>
             String unchangedMessage = message.getText();
 
 
