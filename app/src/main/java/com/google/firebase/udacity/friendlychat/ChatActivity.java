@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -64,6 +65,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
@@ -79,13 +83,14 @@ public class ChatActivity extends AppCompatActivity {
     //TODO: chatid
     private String chatId;
 
-    private ListView mMessageListView;
     private MessageAdapter mMessageAdapter;
-    private ProgressBar mProgressBar;
-    private ImageButton mPhotoPickerButton;
-    private ImageButton mCameraButton;
-    private EditText mMessageEditText;
-    private ImageButton mSendButton;
+
+    @BindView(R.id.messageListView) ListView mMessageListView;
+    @BindView(R.id.progressBar) ProgressBar mProgressBar;
+    @BindView(R.id.photoPickerButton) ImageButton mPhotoPickerButton;
+    @BindView(R.id.cameraButton) ImageButton mCameraButton;
+    @BindView(R.id.messageEditText) EditText mMessageEditText;
+    @BindView(R.id.sendButton) ImageButton mSendButton;
 
     private String mUsername;
     private String users;
@@ -110,6 +115,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        ButterKnife.bind(this);
 
         mUsername = ANONYMOUS;
 
@@ -155,15 +161,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         }
 
-
-
-        // Initialize references to views
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mMessageListView = (ListView) findViewById(R.id.messageListView);
-        mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
-        mCameraButton = (ImageButton) findViewById(R.id.cameraButton);
-        mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (ImageButton) findViewById(R.id.sendButton);
 
         // Initialize message ListView and its adapter
         List<FriendlyMessage> friendlyMessages = new ArrayList<>();

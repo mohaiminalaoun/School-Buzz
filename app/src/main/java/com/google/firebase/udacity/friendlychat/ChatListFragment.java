@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +65,13 @@ public class ChatListFragment extends Fragment {
     private ConversationAdapter mConversationAdapter;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private String mUsername;
-    android.support.design.widget.FloatingActionButton mNewChatButton;
+    //android.support.design.widget.FloatingActionButton mNewChatButton;
+
+
+    // Butterknife components
+
+    @BindView(R.id.fab) android.support.design.widget.FloatingActionButton mNewChatButton;
+    @BindView(R.id.conversationListViewFragment) ListView mConversationListView;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -74,9 +83,12 @@ public class ChatListFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.e("ChatListFragement", " onCreateView() is called");
         View rootView = inflater.inflate(R.layout.fragment_chat_list, container, false);
+        ButterKnife.bind(this, rootView);
         //TODO: copy Oncreate function from ChatListActivity
-        mNewChatButton =
-                (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
+      //  mNewChatButton =
+       //         (android.support.design.widget.FloatingActionButton) rootView.findViewById(R.id.fab);
+
+        ButterKnife.bind(this.getActivity());
         mNewChatButton.show();
         Log.e("CHAT FRAG: ",""+mNewChatButton.isClickable());
         mNewChatButton.show();
@@ -90,8 +102,10 @@ public class ChatListFragment extends Fragment {
         final DatabaseReference mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("chats");
 
 
-        final ListView mConversationListView = (ListView) rootView.findViewById(R.id.conversationListViewFragment);
+        //final ListView mConversationListView = (ListView) rootView.findViewById(R.id.conversationListViewFragment);
         Log.e("CLF ", mConversationListView.toString() );
+
+
 
         //set onScroll listener
         mConversationListView.setOnScrollListener(new ListView.OnScrollListener() {
